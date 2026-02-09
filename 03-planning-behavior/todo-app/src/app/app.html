@@ -24,6 +24,13 @@
         <option value="medium">🟡 Medium Priority</option>
         <option value="high">🔴 High Priority</option>
       </select>
+      <input
+        type="date"
+        [(ngModel)]="newTodoDueDate"
+        name="dueDate"
+        class="date-input"
+        placeholder="Due date (optional)"
+      />
       <button type="submit" class="add-btn">Add Todo</button>
     </div>
   </form>
@@ -66,9 +73,14 @@
           />
           <div class="todo-content">
             <span class="todo-text">{{ todo.text }}</span>
-            <span class="priority-badge" [class.high]="todo.priority === 'high'" [class.medium]="todo.priority === 'medium'" [class.low]="todo.priority === 'low'">
-              {{ todo.priority }}
-            </span>
+            <div class="todo-meta">
+              <span class="priority-badge" [class.high]="todo.priority === 'high'" [class.medium]="todo.priority === 'medium'" [class.low]="todo.priority === 'low'">
+                {{ todo.priority }}
+              </span>
+              @if (todo.dueDate) {
+                <span class="due-date">📅 {{ todo.dueDate }}</span>
+              }
+            </div>
           </div>
         </label>
         <button

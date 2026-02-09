@@ -13,14 +13,20 @@ import { FilterType, Priority } from './todo.model';
 export class App {
   newTodoText = '';
   selectedPriority: Priority = 'medium';
+  newTodoDueDate = ''; // Due date in YYYY-MM-DD format
 
   constructor(public todoService: TodoService) {}
 
   addTodo(): void {
     if (this.newTodoText.trim()) {
-      this.todoService.addTodo(this.newTodoText, this.selectedPriority);
+      this.todoService.addTodo(
+        this.newTodoText,
+        this.selectedPriority,
+        this.newTodoDueDate || undefined
+      );
       this.newTodoText = '';
       this.selectedPriority = 'medium';
+      this.newTodoDueDate = '';
     }
   }
 

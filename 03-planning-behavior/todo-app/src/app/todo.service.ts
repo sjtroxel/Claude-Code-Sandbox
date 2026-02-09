@@ -28,14 +28,15 @@ export class TodoService {
 
   currentFilter = this.filter.asReadonly();
 
-  addTodo(text: string, priority: Priority = 'medium'): void {
+  addTodo(text: string, priority: Priority = 'medium', dueDate?: string): void {
     if (!text.trim()) return;
 
     const newTodo: Todo = {
       id: Date.now(),
       text: text.trim(),
       completed: false,
-      priority
+      priority,
+      dueDate: dueDate || undefined
     };
 
     this.todos.update(todos => [...todos, newTodo]);
