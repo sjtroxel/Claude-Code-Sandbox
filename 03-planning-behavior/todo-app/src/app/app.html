@@ -1,0 +1,94 @@
+<div class="todo-container">
+  <header>
+    <h1>Todo List</h1>
+    <p class="subtitle">Angular 21 with localStorage & priority levels</p>
+  </header>
+
+  <!-- Add Todo Form -->
+  <form (submit)="addTodo(); $event.preventDefault()" class="add-todo-form">
+    <input
+      type="text"
+      [(ngModel)]="newTodoText"
+      name="newTodo"
+      placeholder="What needs to be done?"
+      class="todo-input"
+      autofocus
+    />
+    <div class="form-row">
+      <select
+        [(ngModel)]="selectedPriority"
+        name="priority"
+        class="priority-select"
+      >
+        <option value="low">🟢 Low Priority</option>
+        <option value="medium">🟡 Medium Priority</option>
+        <option value="high">🔴 High Priority</option>
+      </select>
+      <button type="submit" class="add-btn">Add Todo</button>
+    </div>
+  </form>
+
+  <!-- Filter Buttons -->
+  <div class="filters">
+    <button
+      [class.active]="todoService.currentFilter() === 'all'"
+      (click)="setFilter('all')"
+      class="filter-btn"
+    >
+      All
+    </button>
+    <button
+      [class.active]="todoService.currentFilter() === 'active'"
+      (click)="setFilter('active')"
+      class="filter-btn"
+    >
+      Active
+    </button>
+    <button
+      [class.active]="todoService.currentFilter() === 'completed'"
+      (click)="setFilter('completed')"
+      class="filter-btn"
+    >
+      Completed
+    </button>
+  </div>
+
+  <!-- Todo List -->
+  <ul class="todo-list">
+    @for (todo of todoService.filteredTodos(); track todo.id) {
+      <li class="todo-item" [class.completed]="todo.completed" [class.priority-high]="todo.priority === 'high'" [class.priority-medium]="todo.priority === 'medium'" [class.priority-low]="todo.priority === 'low'">
+        <label class="todo-label">
+          <input
+            type="checkbox"
+            [checked]="todo.completed"
+            (change)="toggleTodo(todo.id)"
+            class="todo-checkbox"
+          />
+          <div class="todo-content">
+            <span class="todo-text">{{ todo.text }}</span>
+            <span class="priority-badge" [class.high]="todo.priority === 'high'" [class.medium]="todo.priority === 'medium'" [class.low]="todo.priority === 'low'">
+              {{ todo.priority }}
+            </span>
+          </div>
+        </label>
+        <button
+          (click)="deleteTodo(todo.id)"
+          class="delete-btn"
+          aria-label="Delete todo"
+        >
+          ×
+        </button>
+      </li>
+    } @empty {
+      <li class="empty-state">
+        @if (todoService.currentFilter() === 'all') {
+          No todos yet. Add one above!
+        } @else if (todoService.currentFilter() === 'active') {
+          No active todos
+        } @else {
+          No completed todos
+        }
+      </li>
+    }
+  </ul>
+</div>
