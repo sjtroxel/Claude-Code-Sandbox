@@ -5,7 +5,7 @@ This repository documents my first experience learning and building with Claude 
 ## About This Project
 
 **Purpose:** Educational exploration of Claude Code through hands-on exercises
-**Student:** sjtroxel (Codefi Code Labs bootcamp graduate)
+**Student:** sjtroxel (Codefi Code Labs bootcamp graduate fall 2025)
 **Framework:** Based on test prompts for observing AI coding assistant behavior
 
 ## What I'm Learning
@@ -26,6 +26,7 @@ first-claude-code/
 ├── 03-planning-behavior/               # Angular 21 todo app with priorities
 ├── 04a-orchestration-rails/            # Ruby on Rails API (complex example)
 ├── 04b-orchestration-express/          # Express.js API (simple example)
+├── 05-self-correction/                 # React data fetcher with debugging demo
 ├── Test_Prompts_for_Assignment.md      # Exercise instructions
 └── README.md                           # This file
 ```
@@ -67,6 +68,14 @@ first-claude-code/
 **Endpoints:** GET /api/users, GET /api/users/:id, POST /api/users
 **Run:** `cd 04b-orchestration-express && npm install && npm start`
 **Key Learning:** Express uses fewer files (~6), clearer dependency chain
+
+### Exercise 05: Self-Correction (React Data Fetcher)
+**Goal:** Observe how Claude debugs and fixes its own mistakes
+**What I built:** React component that fetches and displays posts from an API
+**Tech:** React 18 (CDN), JSONPlaceholder API
+**Features:** Loading state, error handling, displays 100 posts
+**Run:** Open `05-self-correction/index.html` in browser
+**Key Learning:** Claude can introduce a bug, identify it from error messages, fix it, and verify the fix works - demonstrating real debugging workflow
 
 ## Technologies Used
 
@@ -119,8 +128,8 @@ This repository was created as part of a learning assignment to explore AI-power
 
 ## About the Developer
 
-**sjtroxel** - Codefi Code Labs bootcamp graduate (2024)
-**Background:** 1 year of coding experience, learned Rails and Angular in bootcamp
+**sjtroxel** - Codefi Code Labs bootcamp graduate (fall 2025)
+**Background:** 1 year of coding experience, learned Rails and Angular in bootcamp, learned React, Node/Express and Tailwind on my own
 **First Time:** This is my first experience with Claude Code
 **Goal:** Understand how AI coding tools work before relying on them
 
