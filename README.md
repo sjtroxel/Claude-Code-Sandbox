@@ -28,7 +28,8 @@ first-claude-code/
 ├── 04b-orchestration-express/          # Express.js API (simple example)
 ├── 05-self-correction/                 # React data fetcher with debugging demo
 ├── 06-windows-95-games/                # Windows 95 game clones
-│   └── minesweeper-clone/              #   Classic Minesweeper (vanilla JS)
+│   ├── minesweeper-clone/              #   Classic Minesweeper (vanilla JS)
+│   └── solitaire-clone-with-star-trek/ #   Star Trek Solitaire (React 19 + TS)
 ├── Test_Prompts_for_Assignment.md      # Exercise instructions
 └── README.md                           # This file
 ```
@@ -86,6 +87,13 @@ first-claude-code/
 **Features:** 4 difficulty levels (Beginner/Intermediate/Expert/Custom), Win95 title bar & menus, smiley face reactions, LCD counter & timer, first-click safety, flood-fill reveal, F2 shortcut
 **Run:** Open `06-windows-95-games/minesweeper-clone/index.html` in browser
 
+### Exercise 06b: Star Trek Solitaire (React 19 + TypeScript)
+**Goal:** Build a complex card game using React 19, TypeScript, and Tailwind via CDN
+**What I built:** Klondike Solitaire with a Star Trek theme — animated starfield, Starfleet delta card backs, Win95 window chrome
+**Tech:** React 19, TypeScript (Babel), Tailwind CSS, HTML5 Canvas (CDN, single-file)
+**Features:** Drag-and-drop & click-to-move, draw-3 stock, undo, score/timer/moves tracking, double-click auto-move to foundation, victory cascade animation
+**Run:** Open `06-windows-95-games/solitaire-clone-with-star-trek/index.html` in browser
+
 ## Technologies Used
 
 - **Frontend:** HTML, CSS, JavaScript, React JSX, Angular 21
@@ -103,6 +111,41 @@ first-claude-code/
 4. **Adaptability:** Claude can change direction mid-task (e.g., adding priorities)
 5. **Orchestration:** Claude understands dependencies between files
 6. **Framework Knowledge:** Works with Angular, Rails, Express, vanilla web tech
+
+### Deep Dive: How Claude Code Thinks About Big Tasks
+
+Building the Star Trek Solitaire game (Exercise 06b) gave me a front-row seat to one of the most interesting behaviors I've observed: **what happens when the AI's planning phase gets too ambitious**.
+
+**What happened:**
+
+When I gave Claude Code the Solitaire prompt — a complex request involving React 19, TypeScript, Tailwind CSS, Klondike game rules, drag-and-drop, Star Trek theming, and Win95 aesthetics all in a single file — something unexpected occurred:
+
+1. **Extended thinking phase (2-3 minutes):** Claude Code went into a long planning phase before writing any code. I could see it was "thinking" but no code was appearing. It was mapping out the entire architecture: component hierarchy, game state management, drag-and-drop strategy, card rendering, animation systems, and how to fit everything into a single HTML file.
+
+2. **Token overflow:** The planning exceeded Claude Code's 32K output token limit. It had spent so many tokens reasoning through the architecture that it ran out of room to actually write the code. The response cut off mid-thought — all planning, zero code output.
+
+3. **Self-correction:** After the reset, Claude Code recognized what happened. Instead of repeating the same over-planning mistake, it essentially said "I was overthinking it. Let me just build it." It dramatically reduced its planning phase and went straight to writing code.
+
+4. **Successful output:** On the second attempt, Claude Code produced all 779 lines of working code in seconds — complete with React components, game logic, animations, and theming.
+
+**Why this matters — Simple vs. Complex tasks:**
+
+| Aspect | Minesweeper (06) | Star Trek Solitaire (06b) |
+|--------|-------------------|---------------------------|
+| Planning time | Seconds | 2-3 minutes (first attempt) |
+| Token usage | Well within limits | Exceeded 32K limit |
+| Attempts needed | 1 | 2 (self-corrected) |
+| Final output | ~600 lines across 3 files | 779 lines in 1 file |
+| Approach | Quick plan → build | Over-plan → fail → recalibrate → build |
+
+**What I learned:**
+
+- **AI models have resource limits.** The 32K output token limit is a real constraint. Extended thinking uses the same token budget as code output — if the AI "thinks" too much, it can run out of room to actually produce anything.
+- **Planning scales with complexity.** For Minesweeper (a grid of buttons with click handlers), Claude Code planned quickly and started coding. For Solitaire (drag-and-drop card game with multiple interacting systems), the planning phase was proportionally larger — too large, as it turned out.
+- **Self-correction works at the meta level.** Claude Code didn't just fix a bug in its code — it fixed a bug in its *approach*. It recognized that over-planning was the problem and adjusted its strategy on the next attempt. This is a higher-order form of the self-correction I observed in Exercise 05.
+- **Watching the AI fail is just as educational as watching it succeed.** The token overflow taught me more about how Claude Code works internally than any of the exercises where everything went smoothly.
+
+This experience directly connects to three themes from this assignment: **planning behavior** (the AI's approach scales with task complexity), **observability** (I could see the thinking phase happening in real-time), and **self-correction** (the AI adapted its own strategy after failure).
 
 ### Comparison: Rails vs Express Orchestration
 
