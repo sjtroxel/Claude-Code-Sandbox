@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minesweeper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== Win95 Window Frame ===== -->
+  <div class="win95-window" id="game-window">
+
+    <!-- Title Bar -->
+    <div class="title-bar">
+      <div class="title-bar-left">
+        <span class="title-icon">💣</span>
+        <span class="title-text">Minesweeper</span>
+      </div>
+      <div class="title-bar-controls">
+        <button class="title-btn" aria-label="Minimize">_</button>
+        <button class="title-btn" aria-label="Maximize">□</button>
+        <button class="title-btn close-btn" aria-label="Close">×</button>
+      </div>
+    </div>
+
+    <!-- Menu Bar -->
+    <div class="menu-bar">
+      <div class="menu-item" id="game-menu">
+        <span class="menu-label">Game</span>
+        <div class="menu-dropdown" id="game-dropdown">
+          <button class="menu-option" data-action="new">New<span class="menu-shortcut">F2</span></button>
+          <div class="menu-divider"></div>
+          <button class="menu-option" data-action="beginner">
+            <span class="menu-check" id="check-beginner">✓</span>Beginner
+          </button>
+          <button class="menu-option" data-action="intermediate">
+            <span class="menu-check" id="check-intermediate"></span>Intermediate
+          </button>
+          <button class="menu-option" data-action="expert">
+            <span class="menu-check" id="check-expert"></span>Expert
+          </button>
+          <button class="menu-option" data-action="custom">
+            <span class="menu-check" id="check-custom"></span>Custom…
+          </button>
+          <div class="menu-divider"></div>
+          <button class="menu-option" data-action="exit">Exit</button>
+        </div>
+      </div>
+      <div class="menu-item" id="help-menu">
+        <span class="menu-label">Help</span>
+        <div class="menu-dropdown" id="help-dropdown">
+          <button class="menu-option" data-action="about">About Minesweeper…</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Content Area -->
+    <div class="game-area">
+      <div class="controls-panel">
+        <div class="lcd-display" id="mine-counter">010</div>
+        <button class="smiley-btn" id="reset-btn" aria-label="New Game">🙂</button>
+        <div class="lcd-display" id="timer">000</div>
+      </div>
+      <div class="status" id="status">Click any cell to start!</div>
+      <div class="board" id="board"></div>
+    </div>
+  </div>
+
+  <!-- ===== Custom Difficulty Dialog ===== -->
+  <div class="dialog-overlay" id="custom-dialog">
+    <div class="win95-dialog">
+      <div class="title-bar">
+        <span class="title-text">Custom Field</span>
+        <button class="title-btn close-btn" id="dialog-close" aria-label="Close">×</button>
+      </div>
+      <div class="dialog-body">
+        <div class="dialog-field">
+          <label for="custom-rows">Height:</label>
+          <input type="number" id="custom-rows" class="win95-input" min="9" max="24" value="9">
+        </div>
+        <div class="dialog-field">
+          <label for="custom-cols">Width:</label>
+          <input type="number" id="custom-cols" class="win95-input" min="9" max="30" value="9">
+        </div>
+        <div class="dialog-field">
+          <label for="custom-mines">Mines:</label>
+          <input type="number" id="custom-mines" class="win95-input" min="10" max="668" value="10">
+        </div>
+        <div class="dialog-buttons">
+          <button class="win95-btn" id="dialog-ok">OK</button>
+          <button class="win95-btn" id="dialog-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== About Dialog ===== -->
+  <div class="dialog-overlay" id="about-dialog">
+    <div class="win95-dialog about-dialog">
+      <div class="title-bar">
+        <span class="title-text">About Minesweeper</span>
+        <button class="title-btn close-btn" id="about-close" aria-label="Close">×</button>
+      </div>
+      <div class="dialog-body about-body">
+        <div class="about-icon">💣</div>
+        <p class="about-title">Minesweeper</p>
+        <p class="about-version">Windows 95 Edition</p>
+        <p class="about-credit">Built with Claude Code</p>
+        <p class="about-author">© 2026 sjtroxel</p>
+        <button class="win95-btn" id="about-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -27,6 +27,7 @@ first-claude-code/
 ├── 04a-orchestration-rails/            # Ruby on Rails API (complex example)
 ├── 04b-orchestration-express/          # Express.js API (simple example)
 ├── 05-self-correction/                 # React data fetcher with debugging demo
+├── 06-minesweeper-clone/               # Classic Minesweeper clone (vanilla JS)
 ├── Test_Prompts_for_Assignment.md      # Exercise instructions
 └── README.md                           # This file
 ```
@@ -76,6 +77,13 @@ first-claude-code/
 **Features:** Loading state, error handling, displays 100 posts
 **Run:** Open `05-self-correction/index.html` in browser
 **Key Learning:** Claude can introduce a bug, identify it from error messages, fix it, and verify the fix works - demonstrating real debugging workflow
+
+### Exercise 06: Minesweeper Clone (Vanilla JS)
+**Goal:** Build a fully playable game with Claude Code — authentic Windows 95 recreation
+**What I built:** Classic Minesweeper with Win95 window chrome, menu bar, difficulty levels, and retro pixel aesthetics
+**Tech:** Vanilla HTML, CSS (CSS Grid, beveled borders), JavaScript (ES6+), Press Start 2P pixel font
+**Features:** 4 difficulty levels (Beginner/Intermediate/Expert/Custom), Win95 title bar & menus, smiley face reactions, LCD counter & timer, first-click safety, flood-fill reveal, F2 shortcut
+**Run:** Open `06-minesweeper-clone/index.html` in browser
 
 ## Technologies Used
 

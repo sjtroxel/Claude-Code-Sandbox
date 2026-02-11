@@ -1,0 +1,570 @@
+/* ============================================================
+   MINESWEEPER — Windows 95 Edition
+   Authentic Win95 look with chunky bevels, pixel font, grain
+   ============================================================ */
+
+/* ===== Reset & Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Microsoft Sans Serif", "MS Sans Serif", Arial, sans-serif;
+  background: #16013d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  user-select: none;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+}
+
+/* ===== Reusable Win95 Bevels ===== */
+
+/* Raised look (buttons, window outer edge) */
+.bevel-raised {
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  box-shadow: 1px 1px 0 0 #000;
+}
+
+/* Sunken look (panels, LCD, revealed cells) */
+.bevel-sunken {
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+/* ===== Win95 Window Frame ===== */
+.win95-window {
+  background: #c0c0c0;
+  border-top: 3px solid #dfdfdf;
+  border-left: 3px solid #dfdfdf;
+  border-right: 3px solid #404040;
+  border-bottom: 3px solid #404040;
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #000,
+    3px 3px 12px rgba(0, 0, 0, 0.5);
+  padding: 3px;
+  position: relative;
+  width: fit-content;
+}
+
+/* Subtle grain/noise overlay on the entire window */
+.win95-window::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.015) 2px,
+      rgba(0, 0, 0, 0.015) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.01) 2px,
+      rgba(0, 0, 0, 0.01) 4px
+    );
+  z-index: 100;
+}
+
+/* ===== Title Bar ===== */
+.title-bar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 3px;
+  height: 22px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.title-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.title-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.title-text {
+  letter-spacing: 0.5px;
+}
+
+.title-bar-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.title-btn {
+  width: 18px;
+  height: 16px;
+  background: #c0c0c0;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+  box-shadow: inset -1px -1px 0 #808080;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #000;
+  line-height: 1;
+  font-family: inherit;
+}
+
+.title-btn:active {
+  border-top: 1px solid #404040;
+  border-left: 1px solid #404040;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  box-shadow: inset 1px 1px 0 #808080;
+  padding-top: 1px;
+  padding-left: 1px;
+}
+
+.title-btn.close-btn {
+  font-size: 12px;
+}
+
+/* ===== Menu Bar ===== */
+.menu-bar {
+  background: #c0c0c0;
+  display: flex;
+  padding: 1px 0;
+  border-bottom: 1px solid #808080;
+  position: relative;
+  z-index: 50;
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-label {
+  display: block;
+  padding: 3px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #000;
+}
+
+.menu-label:hover,
+.menu-item.active .menu-label {
+  background: #000080;
+  color: #fff;
+}
+
+/* Dropdown */
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #c0c0c0;
+  border-top: 2px solid #dfdfdf;
+  border-left: 2px solid #dfdfdf;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  box-shadow: 2px 2px 0 #000;
+  min-width: 180px;
+  padding: 2px;
+  z-index: 60;
+}
+
+.menu-item.active .menu-dropdown {
+  display: block;
+}
+
+.menu-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 3px 24px 3px 6px;
+  font-size: 12px;
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  text-align: left;
+  position: relative;
+}
+
+.menu-option:hover {
+  background: #000080;
+  color: #fff;
+}
+
+.menu-check {
+  display: inline-block;
+  width: 16px;
+  font-size: 11px;
+  text-align: center;
+  margin-right: 2px;
+}
+
+.menu-shortcut {
+  margin-left: auto;
+  font-size: 11px;
+  color: #808080;
+  padding-left: 20px;
+}
+
+.menu-option:hover .menu-shortcut {
+  color: #c0c0c0;
+}
+
+.menu-divider {
+  height: 1px;
+  background: #808080;
+  margin: 3px 2px;
+  border-bottom: 1px solid #fff;
+}
+
+/* ===== Game Content Area ===== */
+.game-area {
+  margin: 4px;
+  border-top: 3px solid #808080;
+  border-left: 3px solid #808080;
+  border-right: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  padding: 6px;
+  background: #c0c0c0;
+}
+
+/* ===== Controls Panel (counter, smiley, timer) ===== */
+.controls-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  padding: 5px 7px;
+  margin-bottom: 6px;
+  background: #c0c0c0;
+}
+
+/* LCD / Seven-segment displays */
+.lcd-display {
+  background: #300;
+  color: #f00;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 20px;
+  padding: 3px 4px;
+  min-width: 60px;
+  text-align: center;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #dfdfdf;
+  border-bottom: 2px solid #dfdfdf;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.8);
+  letter-spacing: 2px;
+  line-height: 1;
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
+  image-rendering: pixelated;
+}
+
+/* Smiley / Reset Button */
+.smiley-btn {
+  font-size: 22px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  border-top: 3px solid #fff;
+  border-left: 3px solid #fff;
+  border-right: 3px solid #808080;
+  border-bottom: 3px solid #808080;
+  box-shadow: 1px 1px 0 #000;
+  background: #c0c0c0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  outline: none;
+}
+
+.smiley-btn:active,
+.smiley-btn.pressed {
+  border-top: 3px solid #808080;
+  border-left: 3px solid #808080;
+  border-right: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  box-shadow: none;
+  padding-top: 2px;
+  padding-left: 2px;
+}
+
+/* ===== Status Message ===== */
+.status {
+  text-align: center;
+  font-size: 11px;
+  color: #000;
+  margin-bottom: 6px;
+  min-height: 14px;
+  font-family: "Microsoft Sans Serif", "MS Sans Serif", Arial, sans-serif;
+}
+
+/* ===== Game Board ===== */
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 9), 24px);
+  grid-template-rows: repeat(var(--rows, 9), 24px);
+  gap: 0;
+  border-top: 3px solid #808080;
+  border-left: 3px solid #808080;
+  border-right: 3px solid #dfdfdf;
+  border-bottom: 3px solid #dfdfdf;
+  box-shadow: inset 1px 1px 0 #404040;
+}
+
+/* ===== Cells ===== */
+.cell {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #c0c0c0;
+
+  /* Chunky raised 3D bevel — the classic unpressed button */
+  border-top: 3px solid #fff;
+  border-left: 3px solid #fff;
+  border-right: 3px solid #808080;
+  border-bottom: 3px solid #808080;
+
+  /* Pixel font for numbers */
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 1;
+
+  /* Kill antialiasing for that bitmap crunch */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  text-rendering: optimizeSpeed;
+  image-rendering: pixelated;
+}
+
+/* Unrevealed hover */
+.cell:not(.revealed):not(.flagged):hover {
+  background: #d6d6d6;
+}
+
+/* Mouse-down preview on unrevealed cells */
+.cell:not(.revealed):not(.flagged):active,
+.cell.peek {
+  border-top: 1px solid #808080;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  background: #bfbfbf;
+}
+
+/* Revealed (sunken flat) */
+.cell.revealed {
+  border: 1px solid #808080;
+  background: #c0c0c0;
+  cursor: default;
+}
+
+/* Flagged */
+.cell.flagged {
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Exploded mine */
+.cell.exploded {
+  background: #ff0000;
+  border: 1px solid #808080;
+}
+
+/* Wrong flag (shown at game over) */
+.cell.wrong-flag {
+  border: 1px solid #808080;
+  background: #c0c0c0;
+}
+
+/* ===== Number Colors (classic Minesweeper palette) ===== */
+.cell[data-number="1"] { color: #0000ff; }
+.cell[data-number="2"] { color: #008200; }
+.cell[data-number="3"] { color: #ff0000; }
+.cell[data-number="4"] { color: #000084; }
+.cell[data-number="5"] { color: #840000; }
+.cell[data-number="6"] { color: #008284; }
+.cell[data-number="7"] { color: #840084; }
+.cell[data-number="8"] { color: #757575; }
+
+/* ===== Dialog Overlay ===== */
+.dialog-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 200;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog-overlay.visible {
+  display: flex;
+}
+
+/* ===== Win95 Dialog Box ===== */
+.win95-dialog {
+  background: #c0c0c0;
+  border-top: 3px solid #dfdfdf;
+  border-left: 3px solid #dfdfdf;
+  border-right: 3px solid #404040;
+  border-bottom: 3px solid #404040;
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #000,
+    4px 4px 10px rgba(0, 0, 0, 0.4);
+  min-width: 260px;
+}
+
+.win95-dialog .title-bar {
+  justify-content: space-between;
+  padding-right: 3px;
+}
+
+.win95-dialog .title-text {
+  flex: 1;
+  padding-left: 4px;
+}
+
+.dialog-body {
+  padding: 16px;
+}
+
+.dialog-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.dialog-field label {
+  min-width: 60px;
+  color: #000;
+}
+
+.win95-input {
+  width: 60px;
+  padding: 2px 4px;
+  font-size: 12px;
+  font-family: inherit;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  background: #fff;
+  outline: none;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* ===== Win95 Buttons ===== */
+.win95-btn {
+  min-width: 80px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  background: #c0c0c0;
+  color: #000;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  box-shadow: 1px 1px 0 #000;
+  outline: none;
+}
+
+.win95-btn:active {
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  box-shadow: none;
+  padding-top: 5px;
+  padding-left: 13px;
+}
+
+/* Focused/default button gets a dark outline */
+.win95-btn:focus-visible {
+  outline: 1px dotted #000;
+  outline-offset: -4px;
+}
+
+/* ===== About Dialog ===== */
+.about-dialog {
+  min-width: 240px;
+}
+
+.about-body {
+  text-align: center;
+  padding: 20px 24px;
+}
+
+.about-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.about-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.about-version {
+  font-size: 11px;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.about-credit,
+.about-author {
+  font-size: 11px;
+  color: #555;
+  margin-bottom: 2px;
+}
+
+.about-body .win95-btn {
+  margin-top: 14px;
+}
