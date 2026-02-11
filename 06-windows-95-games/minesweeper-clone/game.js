@@ -39,9 +39,34 @@ const helpMenu = document.getElementById('help-menu');
 // Dialog elements
 const customDialog = document.getElementById('custom-dialog');
 const aboutDialog = document.getElementById('about-dialog');
+const bestTimesDialog = document.getElementById('best-times-dialog');
+const newRecordDialog = document.getElementById('new-record-dialog');
 const customRowsInput = document.getElementById('custom-rows');
 const customColsInput = document.getElementById('custom-cols');
 const customMinesInput = document.getElementById('custom-mines');
+const newRecordNameInput = document.getElementById('new-record-name');
+
+// ===== Best Times (localStorage) =====
+const BEST_TIMES_KEY = 'minesweeper-best-times';
+const DEFAULT_BEST_TIMES = {
+  beginner:     { time: 999, name: 'Anonymous' },
+  intermediate: { time: 999, name: 'Anonymous' },
+  expert:       { time: 999, name: 'Anonymous' },
+};
+
+function loadBestTimes() {
+  try {
+    const saved = localStorage.getItem(BEST_TIMES_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch (e) { /* ignore */ }
+  return structuredClone(DEFAULT_BEST_TIMES);
+}
+
+function saveBestTimes(times) {
+  localStorage.setItem(BEST_TIMES_KEY, JSON.stringify(times));
+}
+
+let bestTimes = loadBestTimes();
 
 // ===== Initialization =====
 
@@ -330,6 +355,14 @@ function endGame(won) {
       }
     }
     updateMineCounter();
+
+    // Check for new best time (only preset difficulties, not custom)
+    if (currentDifficulty !== 'custom' && bestTimes[currentDifficulty]) {
+      if (seconds < bestTimes[currentDifficulty].time) {
+        pendingRecordDifficulty = currentDifficulty;
+        openNewRecordDialog(currentDifficulty);
+      }
+    }
   } else {
     resetBtn.textContent = '😵';
     statusEl.textContent = 'Game over! Click 😵 to try again.';
@@ -451,6 +484,9 @@ function handleMenuAction(action) {
       if (window.close) window.close();
       statusEl.textContent = 'Thanks for playing!';
       break;
+    case 'best-times':
+      openBestTimesDialog();
+      break;
     case 'about':
       openAboutDialog();
       break;
@@ -513,6 +549,70 @@ aboutDialog.addEventListener('click', (e) => {
 });
 aboutDialog.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' || e.key === 'Enter') closeAboutDialog();
+});
+
+// ===== Best Times Dialog =====
+
+function openBestTimesDialog() {
+  document.getElementById('bt-beginner-time').textContent = bestTimes.beginner.time + ' seconds';
+  document.getElementById('bt-beginner-name').textContent = bestTimes.beginner.name;
+  document.getElementById('bt-intermediate-time').textContent = bestTimes.intermediate.time + ' seconds';
+  document.getElementById('bt-intermediate-name').textContent = bestTimes.intermediate.name;
+  document.getElementById('bt-expert-time').textContent = bestTimes.expert.time + ' seconds';
+  document.getElementById('bt-expert-name').textContent = bestTimes.expert.name;
+  bestTimesDialog.classList.add('visible');
+}
+
+function closeBestTimesDialog() {
+  bestTimesDialog.classList.remove('visible');
+}
+
+document.getElementById('best-times-ok').addEventListener('click', closeBestTimesDialog);
+document.getElementById('best-times-close').addEventListener('click', closeBestTimesDialog);
+bestTimesDialog.addEventListener('click', (e) => {
+  if (e.target === bestTimesDialog) closeBestTimesDialog();
+});
+bestTimesDialog.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' || e.key === 'Enter') closeBestTimesDialog();
+});
+
+document.getElementById('best-times-reset').addEventListener('click', () => {
+  bestTimes = structuredClone(DEFAULT_BEST_TIMES);
+  saveBestTimes(bestTimes);
+  // Refresh the displayed values
+  openBestTimesDialog();
+});
+
+// ===== New Record Dialog =====
+
+let pendingRecordDifficulty = null;
+
+function openNewRecordDialog(difficulty) {
+  const label = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+  document.getElementById('new-record-message').textContent =
+    `You have the fastest time for ${label} level. Please type your name.`;
+  newRecordNameInput.value = 'Anonymous';
+  newRecordDialog.classList.add('visible');
+  // Auto-select the text so the user can just start typing
+  setTimeout(() => {
+    newRecordNameInput.focus();
+    newRecordNameInput.select();
+  }, 50);
+}
+
+function submitNewRecord() {
+  const name = newRecordNameInput.value.trim() || 'Anonymous';
+  if (pendingRecordDifficulty) {
+    bestTimes[pendingRecordDifficulty] = { time: seconds, name };
+    saveBestTimes(bestTimes);
+    pendingRecordDifficulty = null;
+  }
+  newRecordDialog.classList.remove('visible');
+}
+
+document.getElementById('new-record-ok').addEventListener('click', submitNewRecord);
+newRecordDialog.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') submitNewRecord();
 });
 
 // ===== Keyboard Shortcuts =====

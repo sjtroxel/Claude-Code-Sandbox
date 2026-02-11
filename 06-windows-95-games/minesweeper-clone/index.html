@@ -47,6 +47,8 @@
             <span class="menu-check" id="check-custom"></span>Custom…
           </button>
           <div class="menu-divider"></div>
+          <button class="menu-option" data-action="best-times">Best Times…</button>
+          <div class="menu-divider"></div>
           <button class="menu-option" data-action="exit">Exit</button>
         </div>
       </div>
@@ -112,6 +114,57 @@
         <p class="about-credit">Built with Claude Code</p>
         <p class="about-author">© 2026 sjtroxel</p>
         <button class="win95-btn" id="about-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Fastest Mine Sweepers Dialog ===== -->
+  <div class="dialog-overlay" id="best-times-dialog">
+    <div class="win95-dialog best-times-dialog">
+      <div class="title-bar">
+        <span class="title-text">Fastest Mine Sweepers</span>
+        <button class="title-btn close-btn" id="best-times-close" aria-label="Close">×</button>
+      </div>
+      <div class="dialog-body">
+        <table class="best-times-table">
+          <tr>
+            <td class="bt-level">Beginner:</td>
+            <td class="bt-time" id="bt-beginner-time">999 seconds</td>
+            <td class="bt-name" id="bt-beginner-name">Anonymous</td>
+          </tr>
+          <tr>
+            <td class="bt-level">Intermediate:</td>
+            <td class="bt-time" id="bt-intermediate-time">999 seconds</td>
+            <td class="bt-name" id="bt-intermediate-name">Anonymous</td>
+          </tr>
+          <tr>
+            <td class="bt-level">Expert:</td>
+            <td class="bt-time" id="bt-expert-time">999 seconds</td>
+            <td class="bt-name" id="bt-expert-name">Anonymous</td>
+          </tr>
+        </table>
+        <div class="dialog-buttons">
+          <button class="win95-btn" id="best-times-reset">Reset Scores</button>
+          <button class="win95-btn" id="best-times-ok">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== New Best Time Dialog ===== -->
+  <div class="dialog-overlay" id="new-record-dialog">
+    <div class="win95-dialog new-record-dialog">
+      <div class="title-bar">
+        <span class="title-text">New Best Time</span>
+      </div>
+      <div class="dialog-body">
+        <p class="new-record-message" id="new-record-message">
+          You have the fastest time for Beginner level. Please type your name.
+        </p>
+        <input type="text" id="new-record-name" class="win95-input new-record-input" maxlength="24" value="Anonymous">
+        <div class="dialog-buttons">
+          <button class="win95-btn" id="new-record-ok">OK</button>
+        </div>
       </div>
     </div>
   </div>

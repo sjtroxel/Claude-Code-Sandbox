@@ -568,3 +568,52 @@ body {
 .about-body .win95-btn {
   margin-top: 14px;
 }
+
+/* ===== Fastest Mine Sweepers Dialog ===== */
+.best-times-dialog {
+  min-width: 300px;
+}
+
+.best-times-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.best-times-table tr {
+  height: 24px;
+}
+
+.bt-level {
+  font-weight: bold;
+  padding-right: 12px;
+  white-space: nowrap;
+}
+
+.bt-time {
+  padding-right: 12px;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.bt-name {
+  color: #000;
+}
+
+/* ===== New Record Dialog ===== */
+.new-record-dialog {
+  min-width: 280px;
+}
+
+.new-record-message {
+  font-size: 12px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.new-record-input {
+  width: 100%;
+  padding: 3px 4px;
+  font-size: 12px;
+}
