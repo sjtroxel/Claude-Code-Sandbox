@@ -1,0 +1,82 @@
+/* Star Trek Solitaire — Windows 95 Edition */
+
+body {
+  margin: 0;
+  background: #000;
+  font-family: "Microsoft Sans Serif", "MS Sans Serif", Arial, sans-serif;
+}
+
+.win95-raised {
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+}
+
+.win95-sunken {
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+.win95-window {
+  border-top: 3px solid #dfdfdf;
+  border-left: 3px solid #dfdfdf;
+  border-right: 3px solid #404040;
+  border-bottom: 3px solid #404040;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000, 4px 4px 16px rgba(0,0,0,0.6);
+}
+
+.title-bar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+}
+
+.win95-btn {
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  box-shadow: 1px 1px 0 #000;
+}
+
+.win95-btn:active {
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  box-shadow: none;
+  padding-top: 1px;
+  padding-left: 1px;
+}
+
+.win95-btn:disabled {
+  color: #808080;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.card-shadow {
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.drag-card {
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+}
+
+/* Resizable game window */
+.game-container {
+  resize: both;
+  overflow: hidden;
+  cursor: default;
+  min-width: 640px;
+  min-height: 480px;
+}
+
+.game-scaler {
+  transform-origin: top left;
+}
+
+@keyframes winPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}

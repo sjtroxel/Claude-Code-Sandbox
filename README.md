@@ -29,7 +29,7 @@ first-claude-code/
 ├── 05-self-correction/                 # React data fetcher with debugging demo
 ├── 06-windows-95-games/                # Windows 95 game clones
 │   ├── minesweeper-clone/              #   Classic Minesweeper (vanilla JS)
-│   └── solitaire-clone-with-star-trek/ #   Star Trek Solitaire (React 19 + TS)
+│   └── solitaire-clone-with-star-trek/ #   Star Trek Solitaire (React 18 + JSX)
 ├── Test_Prompts_for_Assignment.md      # Exercise instructions
 └── README.md                           # This file
 ```
@@ -87,18 +87,19 @@ first-claude-code/
 **Features:** 4 difficulty levels (Beginner/Intermediate/Expert/Custom), Win95 title bar & menus, smiley face reactions, LCD counter & timer, first-click safety, flood-fill reveal, F2 shortcut
 **Run:** Open `06-windows-95-games/minesweeper-clone/index.html` in browser
 
-### Exercise 06b: Star Trek Solitaire (React 19 + TypeScript)
-**Goal:** Build a complex card game using React 19, TypeScript, and Tailwind via CDN
+### Exercise 06b: Star Trek Solitaire (React 18 + JSX)
+**Goal:** Build a complex card game using React, JSX, and Tailwind via CDN
 **What I built:** Klondike Solitaire with a Star Trek theme — animated starfield, Starfleet delta card backs, Win95 window chrome
-**Tech:** React 19, TypeScript (Babel), Tailwind CSS, HTML5 Canvas (CDN, single-file)
-**Features:** Drag-and-drop & click-to-move, draw-3 stock, undo, score/timer/moves tracking, double-click auto-move to foundation, victory cascade animation
-**Run:** Open `06-windows-95-games/solitaire-clone-with-star-trek/index.html` in browser
+**Tech:** React 18 (local UMD), JSX (Babel standalone), Tailwind CSS (CDN), HTML5 Canvas — multi-file architecture
+**Features:** Drag-and-drop & click-to-move, draw-1 / draw-3 toggle, undo, score/timer/moves tracking, double-click auto-move to foundation, resizable game window with responsive scaling, victory cascade animation
+**Run:** Open `06-windows-95-games/solitaire-clone-with-star-trek/index.html` via Live Server
+**Files:** `index.html` (shell), `game-logic.js` (pure JS), `components.jsx` (Starfield, Card, Victory), `app.jsx` (main App), `style.css`
 
 ## Technologies Used
 
 - **Frontend:** HTML, CSS, JavaScript, React JSX, Angular 21
 - **Backend:** Ruby on Rails 8, Express.js
-- **Languages:** JavaScript, TypeScript, Ruby
+- **Languages:** JavaScript, Ruby
 - **Tools:** Node.js, npm, Angular CLI, Rails CLI
 
 ## Key Observations
@@ -126,7 +127,7 @@ When I gave Claude Code the Solitaire prompt — a complex request involving Rea
 
 3. **Self-correction:** After the reset, Claude Code recognized what happened. Instead of repeating the same over-planning mistake, it essentially said "I was overthinking it. Let me just build it." It dramatically reduced its planning phase and went straight to writing code.
 
-4. **Successful output:** On the second attempt, Claude Code produced all 779 lines of working code in seconds — complete with React components, game logic, animations, and theming.
+4. **Successful output:** On the second attempt, Claude Code produced all 779 lines of working code in seconds — complete with React components, game logic, animations, and theming. Later, I had Claude refactor the single-file output into a clean multi-file architecture (5 files) and fix CDN issues by downloading React locally — another lesson in iterative development with AI.
 
 **Why this matters — Simple vs. Complex tasks:**
 
@@ -135,7 +136,7 @@ When I gave Claude Code the Solitaire prompt — a complex request involving Rea
 | Planning time | Seconds | 2-3 minutes (first attempt) |
 | Token usage | Well within limits | Exceeded 32K limit |
 | Attempts needed | 1 | 2 (self-corrected) |
-| Final output | ~600 lines across 3 files | 779 lines in 1 file |
+| Final output | ~600 lines across 3 files | ~790 lines across 5 files (refactored from original 779-line single file) |
 | Approach | Quick plan → build | Over-plan → fail → recalibrate → build |
 
 **What I learned:**
